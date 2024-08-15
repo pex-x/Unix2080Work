@@ -23,19 +23,25 @@ if [[ $EUID == 0 ]]; then
         read -p "Install Apache? (y/n)? "
         if [[ $REPLY =~ y ]]; then
             echo "==== Installing Apache Container ===="
-            read -p "Please name your container: "
             docker pull apache2 
+            read -p "Please name your container: "
             echo
             docker run -d --name $REPLY -e TZ=UTC -p 8080:80 ubuntu/apache2:2.4-22.04_beta
             echo
         if [[ $REPLY =~ n ]]; then
-            
+            exit
         fi
-        sudo ufw enable
-        echo
-        echo "==== Only allowing SSH ===="
-        sudo ufw allow ssh
-        echo
+        read -p "Install MySQL? (y/n)? "
+        if [[ $REPLY =~ y ]]; then
+            echo "==== Installing MySQL Container ===="
+            docker pull mysql
+            read -p "Please name your container, followed by your root password: "
+            echo
+            docker run --name $var1 -e MYSQL_ROOT_PASSWORD=$var2 -d mysql:latest
+            echo
+        if [[ $REPLY =~ n ]]; then
+            exit
+        fi
     fi
 fi
 if [[ $REPLY =~ n ]]; then
