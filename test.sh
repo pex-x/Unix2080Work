@@ -15,6 +15,7 @@ elif [[ $EUID == 0 ]]; then
          sudo apt update
         else
          sudo apt update && sudo apt install apt-transport-https ca-certificates curl software-properties-common
+         sudo snap install docker
          echo
          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
          echo
