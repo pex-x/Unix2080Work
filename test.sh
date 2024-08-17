@@ -30,10 +30,39 @@ elif [[ $EUID == 0 ]]; then
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             echo "==== Installing Apache Container ===="
             docker pull apache2 
-            read -p "Please name your container: "
+            read -p "Please name your container: " NAME_DOCKER
             echo
-            docker run -d --name $REPLY -e TZ=UTC -p 8080:80 ubuntu/apache2:2.4-22.04_beta
-            echo
+            docker run -d --name $NAME_DOCKER -e TZ=UTC -p 8080:80 ubuntu/apache2:2.4-22.04_beta
+            echo ""
+            echo ""
+
+            
+            read -p "Do you need Apache Securtiy? (y/n)?" 
+            if [[ $REPLY =~ ^[Yy]$ ]]; then
+             docker exec -it $NAME_DOCKER /bin/bash
+             DOCKER_APACHECONF = /etc/apache2/apache2.conf
+             DOCKER_APACHECONF_BK = /etc/apache2/apache2.conf.backup
+            
+             echo "Backing up $DOCKER_APACHECONF to $DOCKER_APACHECONF_BK"
+             if ! [[ -f "$DOCKER_APACHECONF_BK" ]]; then
+		      echo "Backing up $DOCKER_APACHECONF to $DOCKER_APACHECONF_BK"
+		      cp $DOCKER_APACHECONF $DOCKER_APACHECONF_BK
+		     fi
+	         echo "To restore: cp $DOCKER_APACHECONF_BK $DOCKER_APACHECONF"
+        	 echo "Modifying $DOCKER_APACHECONF"
+             sed -i -e '$a\ServerTokens Prods$a\ServerSignature Off/g' $DOCKER_APACHECONF 
+             ehco 'ServerTokens Prod' >> $DOCKER_APACHECONF  
+             echo 'ServerSignature Off' >> $DOCKER_APACHECONF
+
+
+
+
+            elif [[ $REPLY =~ ^[Nn]$ ]]; then
+             echo
+            else
+             echo "Invalid input, please try again"
+             exit 1
+            fi
         elif [[ $REPLY =~ ^[Nn]$ ]]; then
             echo
         else
