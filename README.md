@@ -65,18 +65,7 @@ Contributions to improve the project are welcome. Please follow these steps:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/rukhat/Multi-Server-LAMP-Stack-Automation/blob/main/LICENSE) file for details.
-
-
-# Some Details about the Protocols and Scripts Are Below
-
-
-# LDAP and PAM Authentication Server
-
-## Overview
-This section of the project will demonstrate the setup and configuration of an LDAP server, as well as PAM (Pluggable Authentication Module). The server is capable of managing users/groups, implementing lockout policies, time-based access restrictions, and logging of authentication attempts.
-
-## Setup Instructions
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/rukhat/Multi-Server-LAMP-Stack-Automation/blob/main/LICENSE) file for details
 
 ### Prerequisites
 - A Digital Ocean container running Ubuntu 22.04 or any other distro.
