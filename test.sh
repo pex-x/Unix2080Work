@@ -27,6 +27,8 @@ elif [[ $EUID == 0 ]]; then
             echo "==== Installing Apache Container ===="
             read -p "Please name your container: " NAME_DOCKER
             docker run -d --name $NAME_DOCKER -e TZ=UTC -p 8080:80 ubuntu/apache2:2.4-22.04_beta
+            
+            :'
             echo "Apache Security is reccomended..."
             read -p "Do you need Apache Securtiy? (y/n)?" 
             if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -76,7 +78,7 @@ elif [[ $EUID == 0 ]]; then
             echo "Invalid input, please try again"
             exit 1
         fi
-
+        '
         read -p "Install MySQL? (y/n)? "
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             echo "==== Installing MySQL Container ===="
