@@ -27,58 +27,7 @@ elif [[ $EUID == 0 ]]; then
             echo "==== Installing Apache Container ===="
             read -p "Please name your container: " NAME_DOCKER
             docker run -d --name $NAME_DOCKER -e TZ=UTC -p 8080:80 ubuntu/apache2:2.4-22.04_beta
-            
-            :'
-            echo "Apache Security is reccomended..."
-            read -p "Do you need Apache Securtiy? (y/n)?" 
-            if [[ $REPLY =~ ^[Yy]$ ]]; then
-             docker exec -it $NAME_DOCKER /bin/bash
-             DOCKER_APACHECONF = /etc/apache2/apache2.conf
-             DOCKER_APACHECONF_BK = /etc/apache2/apache2.conf.backup
-            
-             echo "Backing up $DOCKER_APACHECONF to $DOCKER_APACHECONF_BK"
-             if ! [[ -f "$DOCKER_APACHECONF_BK" ]]; then
-		      echo "Backing up $DOCKER_APACHECONF to $DOCKER_APACHECONF_BK"
-		      cp $DOCKER_APACHECONF $DOCKER_APACHECONF_BK
-		     fi
-
-	         echo "To restore: cp $DOCKER_APACHECONF_BK $DOCKER_APACHECONF"
-        	 echo "Hiding Apache Version and OS Information"
-             sed -i -e '$a\ServerTokens Prods$a\ServerSignature Off/g' $DOCKER_APACHECONF
-             sed -i "KeepAliveTimeout/i 200"
-
-             echo "Disabling Directory Listing"
-             a2dismod --force autoindex
-             echo "Updating Packages/Checking for out of date version"
-             apt update && apt upgrade
-
-             echo "Enabling HTTP Strict Transport Security (HSTS) & restarting server"
-             a2enmod headers
-             service apache2 restart
-             docker start $NAME_DOCKER
-             docker exec -it $NAME_DOCKER /bin/bash
-             config_files=("/etc/apache2/sites-available/default-ssl.conf")
-             insert_string='Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"\n'
-             sed -i "/<\/VirtualHost>/i  $insert_string" $config_files
-
-             echo "Doing last restart to make sure everything initilized"
-             service apache2 restart
-             docker start $NAME_DOCKER
-
-             echo "Security Complete. To disable unnessecary modules please check apache2ctl -M"
-            elif [[ $REPLY =~ ^[Nn]$ ]]; then
-             echo
-            else
-             echo "Invalid input, please try again"
-             exit 1
-            fi
-        elif [[ $REPLY =~ ^[Nn]$ ]]; then
-            echo
-        else
-            echo "Invalid input, please try again"
-            exit 1
         fi
-        '
         read -p "Install MySQL? (y/n)? "
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             echo "==== Installing MySQL Container ===="
