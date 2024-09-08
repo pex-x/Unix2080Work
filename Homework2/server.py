@@ -17,7 +17,7 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((SERVER_HOST, SERVER_PORT))
 
 server.listen(1)
-print("Server is running on " + SERVER_HOST + ' Port ' + SERVER_PORT)
+print("Server is running Local Host")
 
 
 client, client_address = server.accept()
