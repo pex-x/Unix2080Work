@@ -1,3 +1,5 @@
+# Nicholas Olsen | 110761434
+
 import socket
 
 SERVER_HOST = '127.0.0.1'
