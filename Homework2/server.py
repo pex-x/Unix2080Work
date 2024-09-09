@@ -1,3 +1,5 @@
+# Nicholas Olsen | 110761434
+
 import socket
 
 SERVER_HOST = '127.0.0.1'
@@ -30,8 +32,7 @@ while True:
         response = name
     else:
         response = "Sorry, nothing to show, please try again later."
-
     client.send(response.encode('utf-8'))
 
-client.close()
 server.close()
+client.close()
